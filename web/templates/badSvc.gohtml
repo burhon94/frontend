@@ -1,0 +1,83 @@
+{{template "base" . }}
+{{define "body"}}
+<!-- Header -->
+<header>
+    <div id="header_h">
+        <div class="wrapper">
+            <menu id="h_flow" class="rcols">
+                <li class="h_this"><a href="/"><span>На главную</span></a></li>
+                <div class="h_login">
+                    <div class="login_wrapper">
+
+                        <div id="nav-miniprofile-link">
+                            <li class="h_this"><a href="/api/verify"> <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    Личный кабинет /
+                                    <span id="subtext">Регистрация</span></a></li>
+                        </div>
+
+                    </div>
+                </div>
+            </menu>
+        </div>
+    </div>
+    <div class="clr"></div>
+    <div id="header_b">
+        <div class="wrapper">
+
+            <div class="logo lcol">
+                <a href="/">
+                    Media - Портал
+                </a>
+            </div>
+
+            <div class="logo-menu">
+                <ul>
+                    <li><a href="/movies" title="Фильмы, Видео"><img alt="Фильмы, Видео" src="http://localhost:20000/api/files/images/folder-video.jpg"></a>
+                    </li>
+                    <li><a href="/games" title="Игры"><img alt="Игры" src="http://localhost:20000/api/files/images/folder-games.jpg"></a>
+                    </li>
+                    <li><a href="/softs" title="Программы"><img alt="Программы" src="http://localhost:20000/api/files/images/folder-torrent.jpg"></a>
+                    </li>
+                    <li><a href="/musics" title="Музыка"><img alt="Музыка" src="http://localhost:20000/api/files/images/folder-music.jpg"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="clr"></div>
+        </div>
+    </div>
+</header>
+<!-- Header_End -->
+
+<main id="content_all">
+
+<!-- Content -->
+        <section class="Wrapper_Content">
+
+<!-- Posts -->
+            <h1>Service Post Is Not Available, Please Try again Later</h1>
+<!-- Posts_End -->
+
+        </section>
+<!-- Content_End -->
+
+</main>
+
+<!-- Footer -->
+        <footer class="Wrapper_Foot">
+            <div>
+                <p class="r_f" id="right_toj">
+                    Copyright © 2020, <a href="http://tojnet.tj/tj/asos" title="tojNET">tojNet</a>. Все права пренадлежат <strong>tojNET</strong> и защищены.
+                </p>
+                <div id="valid">
+                    <div id="html">
+                        <img alt="HTML_Validation" src="http://localhost:20000/api/files/images/html5.png">
+                    </div>
+                    <div id="css">
+                        <img alt="CSS_Validation" src="http://jigsaw.w3.org/css-validator/images/vcss">
+                    </div>
+                </div>
+            </div>
+        </footer>
+<!-- Footer_End -->
+{{end}}

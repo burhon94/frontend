@@ -1,0 +1,16 @@
+POST http://localhost:4444
+
+###
+
+
+GET http://localhost:4444/authSvc
+
+###
+
+GET http://localhost:4444/fileSvc
+
+###
+
+GET http://localhost:4444/postSvc
+
+###

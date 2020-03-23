@@ -1,0 +1,6 @@
+github.com/burhon94/alifMux v0.0.0-20200319040859-aa36807e6ae7 h1:X4mNxzzB1MQ7469acxk4wWJeSA9xYIZk70z6vS6rYis=
+github.com/burhon94/alifMux v0.0.0-20200319040859-aa36807e6ae7/go.mod h1:k72nNp264B+i5XqNROrgb8hasDyYztVPYThUNAPNjao=
+github.com/burhon94/bdi v0.0.0-20200314174333-14a2c983be03 h1:d7eWaYR0cKHva6kp8HiwYm8hsWhsmfST5Bh5Y3MEeC8=
+github.com/burhon94/bdi v0.0.0-20200314174333-14a2c983be03/go.mod h1:5dlhKKtK6ZZzW2SIHREuR0apJ60eQmjqiBGER6L9ONc=
+github.com/burhon94/jsonwebtoken v0.0.0-20200322082125-a5e30ad4c7e4 h1:RsXiZxuzwZnxgbEfBUJnJub/HOEalezoFrIznap0QHk=
+github.com/burhon94/jsonwebtoken v0.0.0-20200322082125-a5e30ad4c7e4/go.mod h1:zigopOAP/nX9V4ZPwbpLCVWRQGjJq6TDRweCfKTUczY=

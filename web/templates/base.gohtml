@@ -1,0 +1,581 @@
+{{define "base"}}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<!-- head -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Media TJK</title>
+    <!-- Короткое описание сайта -->
+    <meta name="description" content="Здесь будет короткое описание сайта">
+    <!-- Расметка страницы -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FavIcon -->
+    <link rel="icon" type="image/x-icon"  href="http://localhost:20000/api/files/images/favicon.ico">
+    <!-- Устоновка внещнего стиля -->
+    <link media="screen" href="http://portal.tojnet.tj/templates/ftp-portal/style/styles.css" type="text/css" rel="stylesheet">
+    <!-- Устоновка внещнего скрипта -->
+    <script>
+
+    </script>
+    <!-- Styles_In_File -->
+    <style>
+        /*---
+        Design by: DCOReARTS.com
+        --------------------------------
+        Author: Tamerlan
+        --------------------------------
+        Code: Misterio
+        --------------------------------
+        Code Type: CSS3+HTML5
+        --------------------------------
+        Web-site: http://dcorearts.com/
+        --------------------------------
+        Date: 22 April 2013
+        --------------------------------
+        ---*/
+        /*---forms---*/
+        input[type="image"]:hover {
+            opacity: 0.8;
+        }
+        ul, form {
+            display: block;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        input[type="submit"], input[type="button"] {
+            cursor: pointer;
+        }
+        /*---h1,h2,h3,h4,h5,h6----*/
+        h1, h2, h3, h4, h5, h6 {
+            display: block;
+            margin: 0 0 10px 0;
+            padding: 0;
+            color: #2c2c2c;
+        }
+        h1 {
+            font-size: 26px;
+        }
+        h2 {
+            font-size: 22px;
+        }
+        h3 {
+            font-size: 20px;
+        }
+        h4 {
+            font-size: 18px;
+        }
+        h5 {
+            font-size: 16px;
+        }
+        h6 {
+            font-size: 14px;
+        }
+        .small {
+            font-size: 0.9em;
+        }
+        /*---a-links---*/
+        a, img, input {
+            outline: none;
+            border: none;
+        }
+        a img {
+            border: 0;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+
+        /* ----------- CSS  ----------- */
+        body {
+            font: 12px/14px Tahoma, Arial, Helvetica, sans-serif;
+            background: #ffffff url("http://localhost:20000/api/files/images/backGround/lines_paint_background_bright.jpg") no-repeat center 0;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        header{
+            position: relative;
+            height: 150px;
+        }
+
+
+        /* ----------- Size_Paper  ----------- */
+        .Wrapper{
+            position: relative;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* ----------- Header ----------- */
+
+        .h_m_u_wrap{
+            position: relative;
+            background-color: #251C16;
+        }
+
+        /* ----------- Header_Menu ----------- */
+
+        /* ----------- FLAME_HEAD_TEXT ----------- */
+        li.head_li > a.head_a:hover, li.head_li_u > a.head_a_u:hover{
+            cursor: pointer;
+            text-decoration: none;
+            color: rgba(255,255,255,.8);
+            background: #251C16;
+            transition: .4s;
+            text-shadow: 0 0 10px rgba(255,255,255,.5), 0 0 20px rgba(255,255,255,.5);
+        }
+        /* ----------- Head_TEXTs_Style ----------- */
+        .head_menu li.head_li{
+            color: #ffffff;
+            line-height: 35px;
+            font-size: 13px;
+            text-align: right;
+            padding: 0 0 0 20px;
+            position: relative;
+        }
+        /* ----------- Head_Inline Style ----------- */
+        .head_menu ul li.head_li{
+            display: inline;
+        }
+        /* ----------- Head_Tojnet_DropDown ----------- */
+        /* Display:none */
+        ul.tojnet_dd{
+            z-index: -9;
+            color: white;
+            opacity: 0;
+            transition: .5s;
+            position: absolute;
+            min-width: 250px;
+            min-height: 80px;
+            text-align: center;
+            background-color: #2E2C2F;
+        }/* Float Block */
+        li:hover ul.tojnet_dd{
+            margin: 0 800%;
+            transition: .5s;
+            opacity: 1;
+            z-index: 10;
+            border-radius: 0px 0px 40px 40px;
+            box-shadow: 0px 7px 16px 7px rgba(0,0,0,0.76);
+        }/* Display:Block */
+        .tojent_li_dd>a{color: black;}
+        li.head_li .tojent_li_dd > a:hover {
+            cursor: pointer;
+            text-decoration: none;
+            color: rgba(77,88,77,.8);
+            transition: .4s;
+            text-shadow: 0 0 10px rgba(199,42,7,.5), 0 0 20px rgba(199,42,7,.5),0 0 30px rgba(199,42,7,.5), 0 0 40px rgba(199,42,7,.5);
+            letter-spacing: 2px;
+        }
+        /* ----------- Header_End_Menu ----------- */
+
+        /* ----------- Header_User_Form----------- */
+        /* ----------- Header_User_Text_Reg/Auth ----------- */
+        #auth {
+            position: absolute;
+            line-height: 35px;
+            top: 0;
+            right: 25px;
+        }
+
+
+        /* ----------- Header_User_Div_Float ----------- */
+        #ident {
+            height: 85px;
+            display: none;
+            position: relative;
+        }
+
+
+        /* ----------- Header_User_BTN_Reg_Forgot_OK ----------- */
+        #auth_form{position: relative; text-align: right} /* FORM_Relativ_Right */
+        .auth_span{
+            top: 10px;
+            text-align: center;
+            padding: 8px;
+            width: 90px;
+            color: #616161;
+            background: #bababa;
+            transition: .5s;
+        }.auth_span:hover{
+             width: 120px;
+             font-size: 14px;
+             color: rgba(255,255,255,.3);
+             background: #1a1a1a;
+             text-shadow: 0 0 15px rgba(255,255,255,.5), 0 0 10px rgba(255,255,255,.5);
+             transition: .5s;
+             box-shadow: 0px 0px 22px 6px #000000;
+         }/* Position */
+        #forget_span{
+            position: absolute;
+            top: 45px;
+            right: 290px;
+        }#reg_span{
+             position: absolute;
+             right: 290px;
+         }#sumb_span{
+              position: relative;
+              top: 15px;
+              right: 20px;
+              transition: .5s;
+              height: 50px;
+              width: 50px;
+          }#sumb_span:hover{
+               border-radius: 45px;
+               transition: .5s;
+               box-shadow: 0px 0px 20px 5px #3ED0F7;
+           }
+
+
+        /* ----------- Header_User_Login_Pass_Input ----------- */
+        .inp_user{
+            background: white;
+        }#login{
+             position: absolute;
+             top: 10px;
+             font-size: 16px;
+             line-height: 30px;
+             right: 80px;
+             padding-left: 5px;
+             padding-right: 5px;
+         }#password{
+              position: absolute;
+              top: 45px;
+              font-size: 16px;
+              line-height: 30px;
+              right: 80px;
+              padding-left: 5px;
+              padding-right: 5px;
+          }
+
+
+
+        /* ----------- Header_Ctrl ----------- */
+        .head_h_bg{
+            background-image: url("http://localhost:20000/api/files/images/header/header_h_bg.png");
+            background-repeat: repeat-x;
+            height: 7px;
+        }
+
+
+
+        /* ----------- Header_Bottom_Menu ----------- */
+        .head_b_wrap{position: relative;}
+        .head_b_a{text-decoration: none;}
+        .head_b{margin: 0 10px;}
+        .head_logo{position: relative; top: 5px;}
+        .head_b_li{list-style: none;}
+
+        /* ----------- Header_Bottom_Li ----------- */
+        .head_b_menu{
+            max-width: 80%;
+            position: relative;
+            left: 235px;
+            top: -90px;
+            padding: 0 ;
+            letter-spacing: 5px;
+        }
+
+        .header_b ul li.head_b_li{
+            display: inline;
+        }
+
+
+        .logo-menu a{
+            margin-left: 50px;
+        }
+
+        .head_b_a img{width: 100px; transition: .1s;}
+        .head_b_a img:hover{transition: .1s; box-shadow: 0px 0px 22px 10px #FF0000; border-radius: 30px; width: 80px;}
+        /* ----------- Header_END ----------- */
+
+
+
+        /* ----------- wrapper_contents ----------- */
+        #content_all{
+            position: relative;
+        }
+
+
+
+        /* ----------- Left_SideBar ----------- */
+        /* ----------- Position ----------- */
+        .Wrapper_Cont_Left{
+            position: relative;
+            width: 250px;
+            min-height: 50%;
+            float: left;
+            height: 760px;
+            padding: 14px 0 0 0;
+
+        }
+        /* ----------- finder ----------- */
+        .find{background-color: rgba(255,255,255,.0);}
+        #img_find{position:relative;left:30px; width: 25px; height: 25px;}
+        #search{position: relative; left: 10px;}
+        .finder:hover{
+            background-color: rgba(250,150,126,.3);
+            transition: .5s;
+        }
+        /* ----------- finder_set_end ----------- */
+        /* ----------- navi_set ----------- */
+        .finder, #navigation{
+            background-color: rgba(255,255,255,.3);
+            font-size: 14px;
+            margin: 0 8px;
+            line-height: 18px;
+            transition: .5s;
+        }#navigation .head_li_nav:hover{
+             background-color: rgba(165,64,40,.8);
+             font-size: 14px;
+             margin: 0 0 0 8px;
+             line-height: 18px;
+             transition: .5s;
+         }#main_menu{
+              background-color: #0092B7;
+              border: 0 solid aqua;
+              padding: 10px;
+          }.head_li_nav{
+               border-bottom: 1px solid #FF7612; padding: 5px 10px;
+           }#main_menu{
+                border-bottom: 1px solid #0187C5; padding: 10px 10px;
+            }
+        /* ----------- nav_set_end ----------- */
+        /* ----------- left_adv ----------- */
+        #left_adv{
+            position: relative;
+            top: 10px;
+            background-color: rgba(255,255,255,.3);
+            font-size: 14px;
+            line-height: 20px;
+            transition: .5s;
+            padding: 0 5px;
+            height: 300px;
+            margin: 20px 20px;
+            width: 202px;
+            outline: 10px double #FF7612;
+            transition: .5s;
+        }#left_adv:hover{
+             transition: .5s;
+             box-shadow: 0px 0px 50px 10px #000000;
+         }.left_adv_wrap{
+              height: 100%;
+              width: 100%;
+              background-image: url("http://localhost:20000/api/files/images/adv/adv.png");
+              background-repeat: repeat;
+              background-size: 100px;}
+        /* ----------- user_online ----------- */
+        .user_online{
+            position: relative;
+            top: 20px;
+            background-color: rgba(255,255,255,.3);
+            font-size: 14px;
+            margin: 5px 8px;
+            line-height: 20px;
+            transition: .5s;
+            padding: 0 5px;
+        }#head_user_on:hover, .line_div:hover{
+             background-color: #FF7612; margin: 0 0 0 8px;transition: .5s; cursor: default;
+         }
+
+
+
+
+        /* ----------- Right_SideBar ----------- */
+        .Wrapper_Cont_Right{
+            position: relative;
+            width: 250px;
+            float: right;
+            padding: 0;
+            margin: 10px 0;
+        }
+        /* ----------- Right_Div_Media ----------- */
+        .media_toj{
+            background-color: rgba(1,98,122, 1);
+            margin: 0 10px 5px 5px;
+            padding: 0;
+            transition: .5s;
+        }.media_toj:hover{
+             transition: .5s;
+             background-color: rgba(199,42,7,.8);
+             color: white;
+         }.media_toj img{
+              padding: 0 8px;
+              width: 220px;
+          }
+        #media_h{
+            text-align: center;
+            font-size: 18px;
+            line-height: 26px;
+
+        }
+        .Wrapper_Cont_Right #label, .Wrapper_Cont_Right .posts{
+            background-color: rgba(255,255,255,.3);
+            margin: 0 10px 0 5px;
+        }
+        /* ----------- Right_Middle ----------- */
+        #label{
+            font-size: 18px;
+            padding: 7px;
+            text-align: center;
+        }
+        /* ----------- Right_Div_Posts ----------- */
+        .posts_cont img{
+            padding: 0 15px;
+            width: 200px;
+            height: 250px;
+        }.posts_cont:hover{
+             background-color: rgba(199,42,7,.8);
+             text-decoration: underline;
+         }.posts_b {
+              font-size: 16px;
+              margin: 0 5px 10px 5px;
+          }
+
+
+        /* ----------- Content_center ----------- */
+        .Wrapper_Content{
+            min-height: 100%;
+            position: relative;
+            padding: 14px 5px 0 5px;
+            margin: 0 250px 0 250px;
+        }
+        /* ----------- Pages_Navigations ----------- */
+        .page_nav{
+            position: relative;
+            font-size: 14px;
+            top: 5px;
+            padding: 0 10px;
+        }.page_nav_b{margin: 15px 0 40px 0;}
+        .pages a, .pages span{
+            padding: 0 15px;
+            border: 1px solid #FF7612;
+            transition: .5s;
+        }.pages a:hover, .pages span:hover{
+             border: 1px solid red;
+             background-color: #FF7612;
+             color: brown;
+             transition: .5s;
+         }
+        /* ----------- Pages_Navigations_btn ----------- */
+        .page_btn_top{position: absolute; right: 10px; top: -5px}
+        .page_btn_botom{position: absolute; right: 10px; bottom: -30px;}
+
+        .p_back{
+            position: relative;
+            right: 0px;
+            background-image: url("http://localhost:20000/api/files/images/arrows/arrow_3.png");
+            background-repeat: no-repeat;
+            background-position: 4px 5px;
+            cursor: pointer;
+            width: 50px;
+            text-align: right;
+            border: 1px solid #FF7612;
+            background-color: rgba(255,255,255,.2);
+            font-size: 14px;
+            line-height: 16px;
+            padding: 2px 3px;
+        }.p_back:hover{background-image: url("http://localhost:20000/api/files/images/arrows/arrow.png");color: #F66201;}
+        .p_next{
+            background-image: url("http://localhost:20000/api/files/images/arrows/arrow_2.png");
+            background-repeat: no-repeat;
+            background-position: 55px 5px;
+            cursor: pointer;
+            width: 58px;
+            text-align: left;
+            border: 1px solid #FF7612;
+            background-color: rgba(255,255,255,.2);
+            font-size: 14px;
+            line-height: 16px;
+            padding: 2px 3px;
+        }.p_next:hover{background-image: url("http://localhost:20000/api/files/images/arrows/arrow_4.png");color: #F66201;}
+        .p_back, .p_next{display: inline-block;}
+        /* ----------- Pages_Navigations_top_pages ----------- */
+        .pages{
+            cursor: default;
+            display: inline-block;
+            position: absolute;
+        }
+
+        /* ----------- Content_center_content ----------- */
+        .info_top{
+            margin: 30px 0 0 0;
+            padding: 10px;
+            background-color: rgba(255,255,255,.5);
+        }
+        .wrap_cont{
+            margin: 0;
+            padding: 10px;
+            background-color: rgba(255,255,255,.5);
+        }
+        .info_bottom{
+            margin: 0;
+            padding: 10px;
+            background-color: rgba(255,255,255,.5);
+        }
+
+        /* ----------- Footer ----------- */
+        .Wrapper_Foot{
+            position: relative;
+            bottom: 0;
+            height: 78px;
+            width: 100%;
+            background-image: url("http://localhost:20000/api/files/images/footer/footer_bg.png");
+            background-repeat: repeat-x;
+        }
+        .r_f{
+            position: relative;
+            text-align: center;
+            top: 30px;
+            color: white;
+        }.r_f a{
+             color: goldenrod;
+         }#html{
+              position: relative;
+              width: 90px;
+              left: 20%;
+              top: 0px;
+          }#css{
+               width: 5px;
+               position: relative;
+               right: -74%;
+               top: -35px;
+           }
+    </style>
+    <!-- Styles_End -->
+    <!-- Scripts_In_File -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#auth').on('click', function () {
+                var hiden = $('#ident');
+                if (hiden.is(":hidden") ){
+                    hiden.slideDown("slow");
+                }else{
+                    hiden.slideUp("slow");
+                }
+            });
+        });
+    </script>
+    <!-- Import jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Scripts_End -->
+</head>
+<!-- Head_End -->
+
+<!-- Body -->
+<body class="Wrapper">
+
+{{template "body" .}}
+
+</body>
+<!-- Body_End -->
+
+</html>
+{{end}}

@@ -1,0 +1,105 @@
+{{template "base" . }}
+{{define "body"}}
+    <!-- Header -->
+    <header>
+        <div id="header_h">
+            <div class="wrapper">
+                <menu id="h_flow" class="rcols">
+                    <li class="h_this"><a href="/"><span>На главную</span></a></li>
+                    <li class="h_this"><a href="http://localhost:10000/post/0"><span>Добавить новый пост</span></a></li>
+                    <div class="h_login">
+                        <div class="login_wrapper">
+
+                            <div id="nav-miniprofile-link">
+                                <li class="h_this"><a href="http://localhost:10000/login"> <i
+                                                class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                        Личный кабинет /
+                                        <span id="subtext">Регистрация</span></a></li>
+                            </div>
+
+                        </div>
+                    </div>
+                </menu>
+            </div>
+        </div>
+        <div class="clr"></div>
+        <div id="header_b">
+            <div class="wrapper">
+
+                <div class="logo lcol">
+                    <a href="/">
+                        Media - Портал
+                    </a>
+                </div>
+
+                <div class="logo-menu">
+                    <ul>
+                        <li><a href="/movies" title="Фильмы, Видео"><img alt="Фильмы, Видео"
+                                                                         src="http://localhost:20000/api/files/images/folder-video.jpg"></a>
+                        </li>
+                        <li><a href="/games" title="Игры"><img alt="Игры"
+                                                               src="http://localhost:20000/api/files/images/folder-games.jpg"></a>
+                        </li>
+                        <li><a href="/softs" title="Программы"><img alt="Программы"
+                                                                    src="http://localhost:20000/api/files/images/folder-torrent.jpg"></a>
+                        </li>
+                        <li><a href="/musics" title="Музыка"><img alt="Музыка"
+                                                                  src="http://localhost:20000/api/files/images/folder-music.jpg"></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="clr"></div>
+            </div>
+        </div>
+    </header>
+    <!-- Header_End -->
+
+    <main id="content_all">
+
+        <!-- Content -->
+        <section class="Wrapper_Content">
+
+            <div>
+                <form action="/postFiles" method="post">
+                    <div class="form-group">
+                        <input type="file" name="postPosterUrl" accept="media_type" multiple>
+                        <button>postPosterUrl</button>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="file" name="postFilerUrl" accept="media_type" multiple>
+                        <button>postFilerUrl</button>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Files upload</button>
+                </form>
+            </div>
+
+            <div>
+                <form action="/postNew" method="post">
+                    <div class="form-group">
+                        <label for="postTitle">postTitle</label>
+                        <input name="postTitle" type="text" class="form-control" id="postTitle" required style="background-color: white">
+                    </div>
+                    <div class="form-group">
+                        <label for="postPoster">postPoster</label>
+                        <input name="postPoster" type="text" class="form-control" id="postPoster" required style="background-color: white">
+                    </div>
+                    <div class="form-group">
+                        <label for="postCategory">movie, game, prog, music</label>
+                        <input name="postCategory" type="text" class="form-control" id="postCategory" required style="background-color: white">
+                    </div>
+                    <div class="form-group">
+                        <label for="postFile">postFile</label>
+                        <input name="postFile" type="text" class="form-control" id="postFile" required style="background-color: white">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create post</button>
+                </form>
+            </div>
+
+        </section>
+        <!-- Content_End -->
+
+    </main>
+
+{{end}}
