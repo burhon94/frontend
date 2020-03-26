@@ -78,7 +78,13 @@ func JWT(source int, redirect bool, redirectUrl string, payloadType reflect.Type
 			}
 
 			if !ok {
-				http.Error(writer, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+				cookie := &http.Cookie{
+					Name:     "token",
+					Value:    "",
+					Expires:  time.Unix(0, 0),
+					HttpOnly: true,
+				}
+				http.SetCookie(writer, cookie)
 				return
 			}
 

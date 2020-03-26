@@ -1,14 +1,8 @@
 package authSvc
 
 import (
-	"bytes"
-	"context"
-	"errors"
-	"fmt"
 	"github.com/burhon94/frontend/core/getSvcHealth"
-	"io/ioutil"
 	"log"
-	"net/http"
 )
 
 type Url string
@@ -21,8 +15,8 @@ func NewAuthClient(url Url) *AuthClient {
 	return &AuthClient{url: url}
 }
 
-func (a *AuthClient) HealthAuth() bool {
-	status, err := getSvcHealth.GetHealth(getSvcHealth.Url(a.url))
+func (a *AuthClient) HealthAuthSvc() bool {
+	status, err := getSvcHealth.GetHealth("http://localhost:10000")
 	if err != nil {
 		log.Print(err)
 		return false
@@ -30,6 +24,15 @@ func (a *AuthClient) HealthAuth() bool {
 	return status
 }
 
+func (a *AuthClient) HealthAuthCore() bool {
+	status, err := getSvcHealth.GetHealth("http://localhost:9999")
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+	return status
+}
+/*
 func (a *AuthClient) VerifyReDirect(ctx context.Context) (fileWithByte[]byte, err error) {
 
 	request, err := http.NewRequestWithContext(
@@ -73,3 +76,4 @@ func (a *AuthClient) VerifyReDirect(ctx context.Context) (fileWithByte[]byte, er
 	}
 
 }
+*/

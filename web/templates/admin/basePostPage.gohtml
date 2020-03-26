@@ -1,0 +1,66 @@
+{{define "base"}}
+
+    <!DOCTYPE html>
+    <html lang="ru">
+
+    <!-- head -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Media TJK</title>
+        <!-- Короткое описание сайта -->
+        <meta name="description" content="Здесь будет короткое описание сайта">
+        <!-- Расметка страницы -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- FavIcon -->
+        <link rel="icon" type="image/x-icon"  href="http://localhost:20000/api/files/images/favicon.ico">
+        <!-- Устоновка внещнего стиля -->
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link media="screen" href="http://portal.tojnet.tj/templates/ftp-portal/style/styles.css" type="text/css" rel="stylesheet">
+
+
+{{/*        <link media="screen" href="http://portal.tojnet.tj/templates/ftp-portal/style/styles.css" type="text/css" rel="stylesheet">*/}}
+        <!-- Устоновка внещнего скрипта -->
+        <script>
+
+        </script>
+        <!-- Styles_In_File -->
+        <!-- Styles_End -->
+
+        <style>
+
+        </style>
+
+        <!-- Scripts_In_File -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $('#auth').on('click', function () {
+                    var hiden = $('#ident');
+                    if (hiden.is(":hidden") ){
+                        hiden.slideDown("slow");
+                    }else{
+                        hiden.slideUp("slow");
+                    }
+                });
+            });
+        </script>
+        <!-- Import jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Scripts_End -->
+    </head>
+    <!-- Head_End -->
+
+    <!-- Body -->
+    <body class="Wrapper">
+
+    {{template "body" .}}
+
+    </body>
+    <!-- Body_End -->
+
+    </html>
+{{end}}

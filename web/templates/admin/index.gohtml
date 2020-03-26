@@ -11,7 +11,7 @@
                     <div class="login_wrapper">
 
                         <div id="nav-miniprofile-link">
-                            <li class="h_this"><a href="http://localhost:10000/login"> <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            <li class="h_this"><a href="/api/verify"> <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                                     Личный кабинет /
                                     <span id="subtext">Регистрация</span></a></li>
                         </div>
@@ -138,13 +138,13 @@
                 {{ range . }}
                     <div class="short_content">
                         <div class="info_top">
-                            <p hidden name="id"> {{.Id}} </p>
+                            <p name="id"> {{.Id}} </p>
                             <div class="titles"><h3> {{.Title}} </h3></div>
                             <p class="data"> {{.DataAndTime}} </p>
                             <p class="catigories"> {{.Category}} </p>
                         </div>
                         <div class="wrap_cont">
-                            <img class="poster" alt="" src="{{.Poster}}">
+                            <img class="poster" alt="" src="{{.Poster}}" width="200px" height="250px">
                         </div>
                         <div class="info_bottom">
                             <p class="seens_comm"><span class="see"></span><span class="comm"></span>

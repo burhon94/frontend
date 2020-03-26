@@ -26,7 +26,6 @@ func (server *ServerStruct) InitRoutes()  {
 	server.router.POST("/admin", server.handlerIndexPageAdmin(), authMW, jwtMW, logger.Logger("HTTP"))
 	server.router.GET("/post/0", server.handlerPostNewPage(), authMW, jwtMW, logger.Logger("HTTP"))
 	server.router.POST("/postNew", server.handlerPostNew(), authMW, jwtMW, logger.Logger("HTTP"))
-	server.router.POST("/postFiles", server.handlerPostFiles(), authMW, jwtMW, logger.Logger("HTTP"))
 	//get services status
 	server.router.GET("/authSvc", server.handlerHealthAuth(), logger.Logger("HTTP"))
 	server.router.GET("/fileSvc", server.handlerHealthFile(), logger.Logger("HTTP"))

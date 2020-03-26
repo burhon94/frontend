@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	"fmt"
+	"github.com/burhon94/frontend/core/postSvc"
 	"html/template"
 	"log"
 	"net/http"
@@ -11,14 +11,15 @@ import (
 )
 
 const (
-	templatesPath = "web/templates"
+	templatesPath     = "web/templates"
+	multipartMaxBytes = 10 * 1024 * 1024 * 1024
 )
 
 func (server *ServerStruct) handlerIndexPage() http.HandlerFunc {
 	var (
-		tpl *template.Template
+		tpl    *template.Template
 		tplBad *template.Template
-		err error
+		err    error
 	)
 
 	tpl, err = template.ParseFiles(
@@ -30,7 +31,7 @@ func (server *ServerStruct) handlerIndexPage() http.HandlerFunc {
 	}
 
 	tplBad, err = template.ParseFiles(
-		filepath.Join(templatesPath, "badSvc.gohtml"),
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
 		filepath.Join(templatesPath, "base.gohtml"),
 	)
 	if err != nil {
@@ -64,9 +65,9 @@ func (server *ServerStruct) handlerIndexPage() http.HandlerFunc {
 
 func (server *ServerStruct) handlerIndexPageAdmin() http.HandlerFunc {
 	var (
-		tpl *template.Template
+		tpl    *template.Template
 		tplBad *template.Template
-		err error
+		err    error
 	)
 
 	tpl, err = template.ParseFiles(
@@ -78,7 +79,7 @@ func (server *ServerStruct) handlerIndexPageAdmin() http.HandlerFunc {
 	}
 
 	tplBad, err = template.ParseFiles(
-		filepath.Join(templatesPath, "badSvc.gohtml"),
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
 		filepath.Join(templatesPath, "base.gohtml"),
 	)
 	if err != nil {
@@ -115,12 +116,30 @@ func (server *ServerStruct) handlerIndexPageAdmin() http.HandlerFunc {
 
 func (server *ServerStruct) handlerPostNewPage() http.HandlerFunc {
 	var (
-		tpl *template.Template
-		err error
+		tpl           *template.Template
+		tplBadPostSvc *template.Template
+		tplBadFileSvc *template.Template
+		err           error
 	)
 
 	tpl, err = template.ParseFiles(
 		filepath.Join(templatesPath, "admin", "postPage.gohtml"),
+		filepath.Join(templatesPath, "admin", "basePostPage.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	tplBadPostSvc, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	tplBadFileSvc, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badFileSvc.gohtml"),
 		filepath.Join(templatesPath, "base.gohtml"),
 	)
 	if err != nil {
@@ -128,7 +147,25 @@ func (server *ServerStruct) handlerPostNewPage() http.HandlerFunc {
 	}
 
 	return func(writer http.ResponseWriter, request *http.Request) {
-		err = tpl.Execute(writer, struct {}{})
+		post := server.postClient.HealthPost()
+		if post != true {
+			err := tplBadPostSvc.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+			return
+		}
+
+		status := server.fileClient.HealthFile()
+		if status != true {
+			err := tplBadFileSvc.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+			return
+		}
+
+		err = tpl.Execute(writer, struct{}{})
 		if err != nil {
 			log.Print(err)
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -138,67 +175,85 @@ func (server *ServerStruct) handlerPostNewPage() http.HandlerFunc {
 }
 
 func (server *ServerStruct) handlerPostNew() http.HandlerFunc {
-	return func(writer http.ResponseWriter, request *http.Request) {
-		postTitle := request.PostFormValue("postTitle")
-		if postTitle == "" {
-			log.Print("postTitle can't be empty")
-			return
-		}
+	var (
+		tplBadFile *template.Template
+		tplBadPost *template.Template
+		err        error
+	)
 
-		postPoster := request.PostFormValue("postPoster")
-		if postPoster == "" {
-			log.Print("postPoster can't be empty")
-			return
-		}
-
-		postCategory := request.PostFormValue("postCategory")
-		if postCategory == "" {
-			log.Print("postCategory can't be empty")
-			return
-		}
-
-		postFile := request.PostFormValue("postFile")
-		if postFile == "" {
-			log.Print("postFile can't be empty")
-			return
-		}
-
-		ctx, _ := context.WithTimeout(request.Context(), time.Second)
-		err := server.postClient.NewPost(ctx, postTitle, postPoster, postCategory, postFile)
-		if err != nil {
-			_, err := fmt.Fprintf(writer, "error while create new post: %v", err)
-			if err != nil {
-				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			}
-		}
-
-		http.Redirect(writer, request, Root, http.StatusTemporaryRedirect)
+	tplBadFile, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badFileSvc.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
 	}
-}
+	tplBadPost, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
 
-func (server *ServerStruct) handlerPostFiles() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		postPosterUrl := request.PostFormValue("postPosterUrl")
-		if postPosterUrl == "" {
-			log.Print("postPosterUrl can't be empty")
-			return
-		}
-
-		postFilerUrl := request.PostFormValue("postFilerUrl")
-		if postFilerUrl == "" {
-			log.Print("postFilerUrl can't be empty")
-			return
-		}
-
-		ctx, _ := context.WithTimeout(request.Context(), time.Second)
-		posterUrl, fileUrl, err := server.fileClient.UploadFile(ctx, postPosterUrl, postFilerUrl)
-		if err != nil {
-			_, err := fmt.Fprintf(writer, "error while create new post: %v", err)
+		status := server.fileClient.HealthFile()
+		if status != true {
+			err := tplBadFile.Execute(writer, struct{}{})
 			if err != nil {
 				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			}
+			return
 		}
-		log.Print(posterUrl, fileUrl)
+		status = server.postClient.HealthPost()
+		if status != true {
+			err := tplBadPost.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+			return
+		}
+		err := request.ParseMultipartForm(multipartMaxBytes)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		postNew := postSvc.PostNew{}
+
+		postNew.Title = request.PostFormValue("postTitle")
+		if postNew.Title == "" {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		postNew.Category = request.PostFormValue("postCategory")
+		if postNew.Category == "" {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
+		multipartForm:= request.MultipartForm
+		file := multipartForm.File["files"]
+		if len(file) != 2 {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+		log.Print(len(file))
+		filesUrls, err := server.fileClient.UploadFiles(request)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		postNew.Poster = filesUrls[0]
+		postNew.FileUrl = filesUrls[1]
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		err = server.postClient.NewPost(ctx, postNew.Title, postNew.Poster, postNew.Category, postNew.FileUrl)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
 
 		http.Redirect(writer, request, Root, http.StatusTemporaryRedirect)
 	}
@@ -206,10 +261,16 @@ func (server *ServerStruct) handlerPostFiles() http.HandlerFunc {
 
 func (server *ServerStruct) handlerHealthAuth() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		healthAuth := server.authClient.HealthAuth()
+		healthAuth := server.authClient.HealthAuthCore()
+		if healthAuth != true {
+			log.Print("Verify Core is down")
+		} else {
+			log.Print("Verify Core is life")
+		}
+		healthAuth = server.authClient.HealthAuthSvc()
 		if healthAuth != true {
 			log.Print("Verify service is down")
-		}else {
+		} else {
 			log.Print("Verify service is life")
 		}
 	}
@@ -220,7 +281,7 @@ func (server *ServerStruct) handlerHealthFile() http.HandlerFunc {
 		healthFile := server.fileClient.HealthFile()
 		if healthFile != true {
 			log.Print("File service is down")
-		}else {
+		} else {
 			log.Print("File service is life")
 		}
 	}
@@ -231,7 +292,7 @@ func (server *ServerStruct) handlerHealthPost() http.HandlerFunc {
 		healthPost := server.postClient.HealthPost()
 		if healthPost != true {
 			log.Print("Post service is down")
-		}else {
+		} else {
 			log.Print("Post service is life")
 		}
 	}
@@ -239,17 +300,9 @@ func (server *ServerStruct) handlerHealthPost() http.HandlerFunc {
 
 func (server *ServerStruct) handlerVerifyRedir() http.HandlerFunc {
 	var (
-		tpl *template.Template
 		tplBad *template.Template
-		err error
+		err    error
 	)
-	_, err = template.ParseFiles(
-		filepath.Join(templatesPath, "badSvc.gohtml"),
-		filepath.Join(templatesPath, "base.gohtml"),
-		)
-	if err != nil {
-		log.Print(err, tpl)
-	}
 
 	tplBad, err = template.ParseFiles(
 		filepath.Join(templatesPath, "badAuthSvc.gohtml"),
@@ -260,34 +313,32 @@ func (server *ServerStruct) handlerVerifyRedir() http.HandlerFunc {
 	}
 
 	return func(writer http.ResponseWriter, request *http.Request) {
-		healthAuth := server.authClient.HealthAuth()
+		healthAuth := server.authClient.HealthAuthCore()
 		if healthAuth != true {
 			err := tplBad.Execute(writer, struct{}{})
 			if err != nil {
 				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			}
-		}
-
-		ctx, _ := context.WithTimeout(request.Context(), time.Second)
-		bytes, err := server.authClient.VerifyReDirect(ctx)
-		if err != nil {
-			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
 
-		_, err = writer.Write(bytes)
-		if err != nil {
-			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		healthAuth = server.authClient.HealthAuthSvc()
+		if healthAuth != true {
+			err := tplBad.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
 			return
 		}
+		http.Redirect(writer, request, "http://localhost:10000/login", http.StatusTemporaryRedirect)
 	}
 }
 
 func (server *ServerStruct) handlerPostsMovies() http.HandlerFunc {
 	var (
-		tpl *template.Template
+		tpl    *template.Template
 		tplBad *template.Template
-		err error
+		err    error
 	)
 
 	tpl, err = template.ParseFiles(
@@ -299,7 +350,7 @@ func (server *ServerStruct) handlerPostsMovies() http.HandlerFunc {
 	}
 
 	tplBad, err = template.ParseFiles(
-		filepath.Join(templatesPath, "badSvc.gohtml"),
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
 		filepath.Join(templatesPath, "base.gohtml"),
 	)
 	if err != nil {
@@ -334,9 +385,9 @@ func (server *ServerStruct) handlerPostsMovies() http.HandlerFunc {
 
 func (server *ServerStruct) handlerPostsGames() http.HandlerFunc {
 	var (
-		tpl *template.Template
+		tpl    *template.Template
 		tplBad *template.Template
-		err error
+		err    error
 	)
 
 	tpl, err = template.ParseFiles(
@@ -348,7 +399,7 @@ func (server *ServerStruct) handlerPostsGames() http.HandlerFunc {
 	}
 
 	tplBad, err = template.ParseFiles(
-		filepath.Join(templatesPath, "badSvc.gohtml"),
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
 		filepath.Join(templatesPath, "base.gohtml"),
 	)
 	if err != nil {
@@ -383,9 +434,9 @@ func (server *ServerStruct) handlerPostsGames() http.HandlerFunc {
 
 func (server *ServerStruct) handlerPostsSofts() http.HandlerFunc {
 	var (
-		tpl *template.Template
+		tpl    *template.Template
 		tplBad *template.Template
-		err error
+		err    error
 	)
 
 	tpl, err = template.ParseFiles(
@@ -397,7 +448,7 @@ func (server *ServerStruct) handlerPostsSofts() http.HandlerFunc {
 	}
 
 	tplBad, err = template.ParseFiles(
-		filepath.Join(templatesPath, "badSvc.gohtml"),
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
 		filepath.Join(templatesPath, "base.gohtml"),
 	)
 	if err != nil {
@@ -432,9 +483,9 @@ func (server *ServerStruct) handlerPostsSofts() http.HandlerFunc {
 
 func (server *ServerStruct) handlerPostsMusics() http.HandlerFunc {
 	var (
-		tpl *template.Template
+		tpl    *template.Template
 		tplBad *template.Template
-		err error
+		err    error
 	)
 
 	tpl, err = template.ParseFiles(
@@ -446,7 +497,7 @@ func (server *ServerStruct) handlerPostsMusics() http.HandlerFunc {
 	}
 
 	tplBad, err = template.ParseFiles(
-		filepath.Join(templatesPath, "badSvc.gohtml"),
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
 		filepath.Join(templatesPath, "base.gohtml"),
 	)
 	if err != nil {

@@ -6,13 +6,13 @@
             <div class="wrapper">
                 <menu id="h_flow" class="rcols">
                     <li class="h_this"><a href="/"><span>На главную</span></a></li>
-                    <li class="h_this"><a href="http://localhost:10000/post/0"><span>Добавить новый пост</span></a></li>
+                    <li class="h_this"><a href="/post/0"><span>Добавить новый пост</span></a></li>
                     <div class="h_login">
                         <div class="login_wrapper">
 
                             <div id="nav-miniprofile-link">
-                                <li class="h_this"><a href="http://localhost:10000/login"> <i
-                                                class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                <li class="h_this"><a href="/api/verify"> <i class="fa fa-user-circle-o"
+                                                                             aria-hidden="true"></i>
                                         Личный кабинет /
                                         <span id="subtext">Регистрация</span></a></li>
                             </div>
@@ -55,51 +55,49 @@
     </header>
     <!-- Header_End -->
 
-    <main id="content_all">
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
 
-        <!-- Content -->
-        <section class="Wrapper_Content">
+                <form action="/postNew" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label style="background-color: white" for="postTitle">Назавание поста</label>
+                        <input name="postTitle" type="text" class="form-control" id="postTitle" required
+                               style="background-color: white">
+                    </div>
 
-            <div>
-                <form action="/postFiles" method="post">
                     <div class="form-group">
-                        <input type="file" name="postPosterUrl" accept="media_type" multiple>
-                        <button>postPosterUrl</button>
+                        <label style="background-color: white" for="postPoster">Файл постера</label>
+                        <input name="files" type="file" class="form-control" id="postPoster" required
+                               style="background-color: white" accept="image/jpeg, image/png">
+                    </div>
 
-                    </div>
                     <div class="form-group">
-                        <input type="file" name="postFilerUrl" accept="media_type" multiple>
-                        <button>postFilerUrl</button>
+                        <label style="background-color: white" for="postCategory">Выберите категорию</label>
+                        <select id="postCategory" name="postCategory" class="form-control" required
+                                style="background-color: white">
+                            <option value="" hidden>Категерия</option>
+                            <option value="movie">Видео</option>
+                            <option value="game">Игры</option>
+                            <option value="prog">Программы</option>
+                            <option value="music">Мызыка</option>
+                        </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Files upload</button>
-                </form>
-            </div>
 
-            <div>
-                <form action="/postNew" method="post">
                     <div class="form-group">
-                        <label for="postTitle">postTitle</label>
-                        <input name="postTitle" type="text" class="form-control" id="postTitle" required style="background-color: white">
+                        <label style="background-color: white" for="postFile">Медиа файл</label>
+                        <input name="files" type="file" class="form-control" id="postFile" required
+                               style="background-color: white">
                     </div>
-                    <div class="form-group">
-                        <label for="postPoster">postPoster</label>
-                        <input name="postPoster" type="text" class="form-control" id="postPoster" required style="background-color: white">
-                    </div>
-                    <div class="form-group">
-                        <label for="postCategory">movie, game, prog, music</label>
-                        <input name="postCategory" type="text" class="form-control" id="postCategory" required style="background-color: white">
-                    </div>
-                    <div class="form-group">
-                        <label for="postFile">postFile</label>
-                        <input name="postFile" type="text" class="form-control" id="postFile" required style="background-color: white">
-                    </div>
+
                     <button type="submit" class="btn btn-primary">Create post</button>
                 </form>
+
             </div>
+        </div>
+    </div>
 
-        </section>
-        <!-- Content_End -->
-
-    </main>
+    <!-- Main Content_End -->
 
 {{end}}

@@ -14,3 +14,8 @@ GET http://localhost:4444/fileSvc
 GET http://localhost:4444/postSvc
 
 ###
+
+POST http://localhost:20000/api/files/
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+###
