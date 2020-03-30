@@ -234,11 +234,16 @@ func (server *ServerStruct) handlerPostNew() http.HandlerFunc {
 
 		multipartForm:= request.MultipartForm
 		file := multipartForm.File["files"]
+		if file == nil {
+			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+			return
+		}
+
 		if len(file) != 2 {
 			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 			return
 		}
-		log.Print(len(file))
+
 		filesUrls, err := server.fileClient.UploadFiles(request)
 		if err != nil {
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
