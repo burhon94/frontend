@@ -47,7 +47,7 @@ func (server *ServerStruct) handlerIndexPage() http.HandlerFunc {
 			}
 		}
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		posts, err := server.postClient.GetAllPosts(ctx)
 		if err != nil {
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -95,7 +95,7 @@ func (server *ServerStruct) handlerIndexPageAdmin() http.HandlerFunc {
 			}
 		}
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		posts, err := server.postClient.GetAllPosts(ctx)
 		if err != nil {
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -253,7 +253,7 @@ func (server *ServerStruct) handlerPostNew() http.HandlerFunc {
 		postNew.Poster = filesUrls[0]
 		postNew.FileUrl = filesUrls[1]
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		err = server.postClient.NewPost(ctx, postNew.Title, postNew.Poster, postNew.Category, postNew.FileUrl)
 		if err != nil {
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -527,6 +527,210 @@ func (server *ServerStruct) handlerPostsMusics() http.HandlerFunc {
 		}
 
 		err = tpl.Execute(writer, musics)
+		if err != nil {
+			log.Print(err)
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (server *ServerStruct) handlerMoviesPageAdmin() http.HandlerFunc {
+	var (
+		tpl    *template.Template
+		tplBad *template.Template
+		err    error
+	)
+
+	tpl, err = template.ParseFiles(
+		filepath.Join(templatesPath, "admin", "movie.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	tplBad, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return func(writer http.ResponseWriter, request *http.Request) {
+		post := server.postClient.HealthPost()
+		if post != true {
+			err := tplBad.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
+		posts, err := server.postClient.PostsMovies(ctx)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		//n := rand.Int() % len(posts)
+		//fmt.Print(posts[n])
+
+		err = tpl.Execute(writer, posts)
+		if err != nil {
+			log.Print(err)
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (server *ServerStruct) handlerGamesPageAdmin() http.HandlerFunc {
+	var (
+		tpl    *template.Template
+		tplBad *template.Template
+		err    error
+	)
+
+	tpl, err = template.ParseFiles(
+		filepath.Join(templatesPath, "admin", "game.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	tplBad, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return func(writer http.ResponseWriter, request *http.Request) {
+		post := server.postClient.HealthPost()
+		if post != true {
+			err := tplBad.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
+		posts, err := server.postClient.PostsGames(ctx)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		//n := rand.Int() % len(posts)
+		//fmt.Print(posts[n])
+
+		err = tpl.Execute(writer, posts)
+		if err != nil {
+			log.Print(err)
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (server *ServerStruct) handlerSoftsPageAdmin() http.HandlerFunc {
+	var (
+		tpl    *template.Template
+		tplBad *template.Template
+		err    error
+	)
+
+	tpl, err = template.ParseFiles(
+		filepath.Join(templatesPath, "admin", "soft.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	tplBad, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return func(writer http.ResponseWriter, request *http.Request) {
+		post := server.postClient.HealthPost()
+		if post != true {
+			err := tplBad.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
+		posts, err := server.postClient.PostsSofts(ctx)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		//n := rand.Int() % len(posts)
+		//fmt.Print(posts[n])
+
+		err = tpl.Execute(writer, posts)
+		if err != nil {
+			log.Print(err)
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (server *ServerStruct) handlerMusicsPageAdmin() http.HandlerFunc {
+	var (
+		tpl    *template.Template
+		tplBad *template.Template
+		err    error
+	)
+
+	tpl, err = template.ParseFiles(
+		filepath.Join(templatesPath, "admin", "music.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	tplBad, err = template.ParseFiles(
+		filepath.Join(templatesPath, "badPostSvc.gohtml"),
+		filepath.Join(templatesPath, "base.gohtml"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return func(writer http.ResponseWriter, request *http.Request) {
+		post := server.postClient.HealthPost()
+		if post != true {
+			err := tplBad.Execute(writer, struct{}{})
+			if err != nil {
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
+		posts, err := server.postClient.PostsMusics(ctx)
+		if err != nil {
+			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		//n := rand.Int() % len(posts)
+		//fmt.Print(posts[n])
+
+		err = tpl.Execute(writer, posts)
 		if err != nil {
 			log.Print(err)
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

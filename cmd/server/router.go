@@ -23,6 +23,10 @@ func (server *ServerStruct) InitRoutes()  {
 	server.router.POST("/", server.handlerIndexPage(), unAuthMW, jwtMW, logger.Logger("HTTP"))
 	//admin page
 	server.router.GET("/admin", server.handlerIndexPageAdmin(), authMW, jwtMW, logger.Logger("HTTP"))
+	server.router.GET("/admin/movies", server.handlerMoviesPageAdmin(), authMW, jwtMW, logger.Logger("HTTP"))
+	server.router.GET("/admin/games", server.handlerGamesPageAdmin(), authMW, jwtMW, logger.Logger("HTTP"))
+	server.router.GET("/admin/softs", server.handlerSoftsPageAdmin(), authMW, jwtMW, logger.Logger("HTTP"))
+	server.router.GET("/admin/musics", server.handlerMusicsPageAdmin(), authMW, jwtMW, logger.Logger("HTTP"))
 	server.router.POST("/admin", server.handlerIndexPageAdmin(), authMW, jwtMW, logger.Logger("HTTP"))
 	server.router.GET("/post/0", server.handlerPostNewPage(), authMW, jwtMW, logger.Logger("HTTP"))
 	server.router.POST("/postNew", server.handlerPostNew(), authMW, jwtMW, logger.Logger("HTTP"))
